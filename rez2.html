@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Ahmet Yasin Otel Rezervasyon Sitesi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #e91e63;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      width: 400px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    input, select, button {
+      margin: 10px;
+      padding: 8px;
+      width: 80%;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      background-color: #fff;
+      color: #e91e63;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 15px;
+      background: #fff;
+      color: #e91e63;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      display: none;
+    }
+    .rezervasyon-grubu {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Ahmet Yasin Otel Rezervasyon</h2>
+
+    <input type="text" id="isim" placeholder="İsim">
+    <input type="text" id="soyad" placeholder="Soyad">
+
+    <div class="rezervasyon-grubu">
+      <label>Giriş Tarihi:</label><br>
+      <input type="date" id="giris"><br>
+
+      <label>Çıkış Tarihi:</label><br>
+      <input type="date" id="cikis"><br>
+
+      <label>Oda Tipi:</label><br>
+      <select id="odaTipi">
+        <option value="500">Tek Kişilik Oda - 500 TL</option>
+        <option value="800">Çift Kişilik Oda - 800 TL</option>
+        <option value="1200">Suit Oda - 1200 TL</option>
+      </select><br>
+    </div>
+
+    <button onclick="hesapla()">Hesapla</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function hesapla() {
+      const isim = document.getElementById("isim").value;
+      const soyad = document.getElementById("soyad").value;
+      const giris = new Date(document.getElementById("giris").value);
+      const cikis = new Date(document.getElementById("cikis").value);
+      const fiyat = parseInt(document.getElementById("odaTipi").value);
+
+      if (!isim || !soyad || !giris || !cikis || cikis <= giris) {
+        alert("Lütfen tüm alanları doğru giriniz.");
+        return;
+      }
+
+      const gunFark = (cikis - giris) / (1000 * 60 * 60 * 24);
+      const toplamTutar = gunFark * fiyat;
+
+      const resultDiv = document.getElementById("result");
+      resultDiv.style.display = "block";
+      resultDiv.innerHTML = `Sayın ${isim} ${soyad},<br> ${giris.toLocaleDateString()} - ${cikis.toLocaleDateString()} tarihleri arasında toplam ${gunFark} gün konaklama ücreti: ${toplamTutar} TL'dir.`;
+    }
+  </script>
+</body>
+</html>
